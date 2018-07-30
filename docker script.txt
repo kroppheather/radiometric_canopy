@@ -1,0 +1,4 @@
+docker pull erickpeirson/radiometric
+
+#test 
+docker run -v c:/Users/hkropp/Pictures/flight/jpg:/in -v c:/Users/hkropp/Pictures/flight/csv:/out erickpeirson/radiometric

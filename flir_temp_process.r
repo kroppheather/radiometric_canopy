@@ -67,7 +67,7 @@ for(i in 1:length(flightDIR)){
 	}
 	flightAll <- ldply(flightDataR, data.frame)
 	#get data quantiles
-	flightQ[[i]] <- quantile(as.vector(dataflightAll)
+	flightQ[[i]] <- quantile(as.vector(data.matrix(flightAll)), seq(0,1, length.out=Ncol))
 	
 }
 
