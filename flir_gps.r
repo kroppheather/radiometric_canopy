@@ -18,7 +18,7 @@ library(zoo)
 #must specify since multiple rgb flights are made around 
 #thermal flights
 rgbDIR <- c("z:\\data_repo\\field_data\\alaska_2018\\rgb\\flight_7_4_p1",
-			"z:\\data_repo\\field_data\\alaska_2018\\rgb\\flight_7_7_p1")
+			"z:\\data_repo\\field_data\\alaska_2018\\rgb\\flight_7_7_thermal")
 			
 #get flir directories
 flirDIR <- c("z:\\data_repo\\field_data\\alaska_2018\\flir_out\\tiff\\7_04",
