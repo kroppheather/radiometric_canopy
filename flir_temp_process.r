@@ -1,5 +1,5 @@
 ##########################################################
-########Script for generating tiff files from  ###########
+########Script for generating jpeg files from  ###########
 ########temperature data extracted from flir   ###########
 ######## jpeg to csv files using the script on ###########
 ###https://github.com/erickpeirson/radiometric-jpeg.git###
@@ -125,14 +125,3 @@ for(i in 1:length(flightDIR)){
 	dev.off()
 }	
 
-
-############################################
-### get photo times from rgb             ###
-############################################
-#get dji info
-library(exifr)
-
-taken <- read_exif("z:\\data_repo\\field_data\\alaska_2018\\rgb\\flight_7_2_h11_04\\DJI_0019.jpg")[28]
-
-#get gps position
-pos <- read_exif("z:\\data_repo\\field_data\\alaska_2018\\rgb\\flight_7_2_h11_04\\DJI_0019.jpg")[120]
