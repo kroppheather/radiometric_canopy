@@ -16,7 +16,7 @@ library(plyr)
 #input rgb paths
 #must specify since multiple rgb flights are made around 
 #thermal flights
-rgbDIR <- c("z:\\data_repo\\field_data\\alaska_2018\\rgb\\flight_4_p1",
+rgbDIR <- c("z:\\data_repo\\field_data\\alaska_2018\\rgb\\flight_7_4_p1",
 			"z:\\data_repo\\field_data\\alaska_2018\\rgb\\flight_7_7_p1")
 			
 #get flir directories
@@ -188,7 +188,40 @@ for(i in 1:dim(flights)[1]){
 #get dji info
 library(exifr)
 
-taken <- read_exif("z:\\data_repo\\field_data\\alaska_2018\\rgb\\flight_7_2_h11_04\\DJI_0019.jpg")[28]
+#list all rgb files
+rgbInfo <- list()
+for(i in 1:dim(flights)[1]){
+	
+	rgbInfo[[i]] <- data.frame(filename=list.files(paste0(rgbDIR[i]),".JPG"))
+	
+}
 
-#get gps position
-pos <- read_exif("z:\\data_repo\\field_data\\alaska_2018\\rgb\\flight_7_2_h11_04\\DJI_0019.jpg")[120]
+#read in photo information
+photoInfo <- read_exif(paste0(rgbDIR[1],"\\",rgbInfo[[i]]$filename[1]))
+
+for(i in 1:dim(flights)[1]){
+	pos <- character(0)
+	timestamp <- character(0)
+	altitude <- numeric(0)
+	
+	
+	for(j in 1:dim(rgbInfo[[i]])[1]){
+	photoInfo <- read_exif(paste0(rgbDIR[i],"\\",rgbInfo[[i]]$filename[j]))
+	pos <- append(pos,photoInfo[120])
+	timestamp <- append(timestamp,photoInfo[28])
+	altitude <- append(altitude,photoInfo[117])
+	}
+	rgbInfo[[i]]$pos <- pos
+	rgbInfo[[i]]$timestamp <- timestamp
+	rgbInfo[[i]]$altitude <- altitude
+
+}
+
+#extract information in character strings
+for(i in 1:dim(flights)[1]){
+	rgbInfo[[i]]$
+
+}
+
+
+#join based on hours,

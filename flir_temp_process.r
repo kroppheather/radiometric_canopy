@@ -124,4 +124,3 @@ for(i in 1:length(flightDIR)){
 		axis(4,lyseq,round(flightQ[[i]],2),las=2,cex.axis=2)
 	dev.off()
 }	
-
