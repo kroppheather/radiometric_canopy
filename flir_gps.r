@@ -9,6 +9,7 @@
 ##########################################################
 ##########################################################
 library(plyr)
+library(zoo)
 ############################################
 ### set up directory                     ###
 ### and read in metadata files           ###
@@ -219,9 +220,53 @@ for(i in 1:dim(flights)[1]){
 
 #extract information in character strings
 for(i in 1:dim(flights)[1]){
-	rgbInfo[[i]]$
+	rgbInfo[[i]]$year <- as.numeric(substr(rgbInfo[[i]]$timestamp,1,4))
+	rgbInfo[[i]]$month <- as.numeric(substr(rgbInfo[[i]]$timestamp,6,7))
+	rgbInfo[[i]]$day <- as.numeric(substr(rgbInfo[[i]]$timestamp,9,10))
+	rgbInfo[[i]]$hours <- as.numeric(substr(rgbInfo[[i]]$timestamp,12,13))
+	rgbInfo[[i]]$minutes <- as.numeric(substr(rgbInfo[[i]]$timestamp,15,16))
+	rgbInfo[[i]]$seconds <- as.numeric(substr(rgbInfo[[i]]$timestamp,18,19))
+	
+}
+
+#extract gps data
+gpsST <- list()
+
+for(i in 1:dim(flights)[1]){
+	lat <- character(0)
+	long <- character(0)
+
+	for(j in 1:dim(rgbInfo[[i]])[1]){
+		gpsST <- strsplit(as.character(rgbInfo[[i]]$pos[j]),"\\s")
+		lat <- append(lat,as.numeric(gpsST[[1]][1]))
+		long <- append(long,as.numeric(gpsST[[1]][2]))
+	
+	}
+	rgbInfo[[i]]$lat <- lat
+	rgbInfo[[i]]$long <- long
 
 }
 
+rgbInfo[[1]]$altitude <- as.numeric(rgbInfo[[1]]$altitude)
 
-#join based on hours,
+#now join to flir data
+dataAll <- list()
+for(i in 1:dim(flights)[1]){
+	colnames(flirInfoSub[[i]])[1] <- "filenameIR"
+	dataAll[[i]] <- join(rgbInfo[[i]],flirInfoSub[[i]], by=c("hours","minutes","seconds","month","day","year"), type="full")
+	dataAll[[i]] <- dataAll[[i]][order(dataAll[[i]]$hours,dataAll[[i]]$minutes,dataAll[[i]]$seconds),]
+}
+#only focus on first flight because time info on second is messed up
+#approximate missing data
+
+	dataAll[[1]]$lat.fill <- na.approx(dataAll[[1]]$lat)
+	dataAll[[1]]$long.fill <- na.approx(dataAll[[1]]$long)
+	dataAll[[1]]$altitude <- as.numeric(dataAll[[1]]$altitude)
+	dataAll[[1]]$alt <- na.approx(dataAll[[1]]$altitude)
+
+dataOut <- data.frame(filename=dataAll[[1]]$filenameIR,dataAll[[1]][,23:25]	)
+
+dataOut <- na.omit(dataOut)
+
+write.table(dataOut, "z:\\data_repo\\field_data\\alaska_2018\\flir_agisoft\\coord_flir_7_04.csv", sep=",", row.names=FALSE)
+	
