@@ -17,7 +17,7 @@ library(plyr)
 imgDIR <- "z:\\data_repo\\field_data\\alaska_2018\\flir_out\\csv"
 
 #directory to create flight photos
-outDIR <- "z:\\data_repo\\field_data\\alaska_2018\\flir_out\\tiff"
+outDIR <- "z:\\data_repo\\field_data\\alaska_2018\\flir_out\\tiff2"
 
 ############################################
 ###  get list of flight directory        ###
@@ -53,7 +53,7 @@ for(i in 1:length(flightDIR)){
 
 
 #declare the number of colors needed
-Ncol <- 30
+Ncol <- 32
 
 
 flightDataR <- list()
@@ -67,7 +67,7 @@ for(i in 1:length(flightDIR)){
 	}
 	flightAll <- ldply(flightDataR, data.frame)
 	#get data quantiles
-	flightQ[[i]] <- quantile(as.vector(data.matrix(flightAll)), seq(0,1, length.out=Ncol))
+	flightQ[[i]] <- quantile(as.vector(data.matrix(flightAll)), c(0,seq(0.0001,0.9999, length.out=Ncol-2),1))
 	
 }
 
@@ -84,7 +84,7 @@ for(i in 1:length(flightDIR)){
 								Temp=as.vector(data.matrix(flightDataR[[j]])))
 		#assign a color for each pixel
 		crange <- flightQ[[i]]
-		ccol <- rainbow(Ncol)
+		ccol <- c("white",rev(rainbow(Ncol-1)))
 		pcol <- character(0)
 		for(k in 1:dim(flightDF[[j]])[1]){
 			for(m in 1:(Ncol-1)){
