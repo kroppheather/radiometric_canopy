@@ -17,7 +17,7 @@ library(plyr)
 imgDIR <- "z:\\data_repo\\field_data\\alaska_2018\\flir_out\\csv"
 
 #directory to create flight photos
-outDIR <- "z:\\data_repo\\field_data\\alaska_2018\\flir_out\\tiff2"
+outDIR <- "z:\\data_repo\\field_data\\alaska_2018\\flir_out\\tiff3"
 
 ############################################
 ###  get list of flight directory        ###
@@ -84,7 +84,7 @@ for(i in 1:length(flightDIR)){
 								Temp=as.vector(data.matrix(flightDataR[[j]])))
 		#assign a color for each pixel
 		crange <- flightQ[[i]]
-		ccol <- c("white",rev(rainbow(Ncol-1)))
+		ccol <- c("white",rev(rainbow(Ncol))[-1])
 		pcol <- character(0)
 		for(k in 1:dim(flightDF[[j]])[1]){
 			for(m in 1:(Ncol-1)){
