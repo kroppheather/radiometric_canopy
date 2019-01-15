@@ -21,8 +21,8 @@ rgbDIR <- c("z:\\data_repo\\field_data\\alaska_2018\\rgb\\flight_7_4_p1",
 			"z:\\data_repo\\field_data\\alaska_2018\\rgb\\flight_7_7_thermal")
 			
 #get flir directories
-flirDIR <- c("z:\\data_repo\\field_data\\alaska_2018\\flir_out\\tiff\\7_04",
-			"z:\\data_repo\\field_data\\alaska_2018\\flir_out\\tiff\\7_07")
+flirDIR <- c("z:\\data_repo\\field_data\\alaska_2018\\flir_out\\tiff3\\7_04",
+			"z:\\data_repo\\field_data\\alaska_2018\\flir_out\\tiff3\\7_07")
 
 
 #read in files that have identified take offs and landings and 
@@ -34,8 +34,8 @@ blurry <- 	read.csv("z:\\data_repo\\field_data\\alaska_2018\\flir_out\\flir_turn
 #specify output directory to copy flir photos so that only
 #the flight path ones are included for agisoft
 
-outDIR <- c("z:\\data_repo\\field_data\\alaska_2018\\flir_agisoft\\7_04",
-			"z:\\data_repo\\field_data\\alaska_2018\\flir_agisoft\\7_07")
+outDIR <- c("z:\\data_repo\\field_data\\alaska_2018\\flir_agisoft2\\7_04",
+			"z:\\data_repo\\field_data\\alaska_2018\\flir_agisoft2\\7_07")
 
 ############################################
 ### extract times from file names        ###
@@ -268,5 +268,5 @@ dataOut <- data.frame(filename=dataAll[[1]]$filenameIR,dataAll[[1]][,23:25]	)
 
 dataOut <- na.omit(dataOut)
 
-write.table(dataOut, "z:\\data_repo\\field_data\\alaska_2018\\flir_agisoft\\coord_flir_7_04.csv", sep=",", row.names=FALSE)
+write.table(dataOut, "z:\\data_repo\\field_data\\alaska_2018\\flir_agisoft2\\coord_flir_7_04.csv", sep=",", row.names=FALSE)
 	
